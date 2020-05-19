@@ -1,0 +1,9 @@
+Django~=3.0.6
+psycopg2-binary
+pyEX
+quandl
+pandas
+scipy
+scikit-learn
+numpy
+matplotlib
