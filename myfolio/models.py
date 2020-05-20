@@ -1,6 +1,6 @@
 from django.db import models
-import datetime
 from django.utils.translation import gettext_lazy as _
+from django.utils.timezone import now
 
 
 class Portfolio(models.Model):
@@ -27,7 +27,7 @@ class Price(models.Model):
     low = models.FloatField(default=0.0)
     close = models.FloatField(default=0.0)
     volume = models.IntegerField(default=0)
-    date = models.DateField(default=datetime.datetime.now())
+    date = models.DateField()
 
     class Meta:
         verbose_name_plural = "Prices"
@@ -51,7 +51,7 @@ class Transaction(models.Model):
     amount = models.FloatField(default=0.0)
     equity = models.ForeignKey(Equity, on_delete=models.CASCADE)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
-    date = models.DateField(default=datetime.datetime.now(), null=False)
+    date = models.DateField(null=False)
     # do I need commission / fee / broker / etc?
 
     class Meta:
@@ -62,7 +62,7 @@ class Holding(models.Model):
     equity = models.ForeignKey(Equity, on_delete=models.CASCADE)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
-    open_date = models.DateField(default=datetime.datetime.now(), null=False)
+    open_date = models.DateField(null=False)
     close_date = models.DateField(default=None)
 
     class Meta:

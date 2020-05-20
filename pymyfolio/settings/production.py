@@ -1,7 +1,7 @@
 from .base import *
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'k363!v!fcv&)&s1dq0l64tl(5x0c1$+#(rcklfghwa8mpm6b^u'
+SECRET_KEY = 'SOMERANDOMSECRETKEYNEEDSTOBEHINHERE'
 
 DEBUG = False
 
