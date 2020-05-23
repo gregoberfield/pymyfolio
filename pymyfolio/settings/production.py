@@ -1,7 +1,5 @@
 from .base import *
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'SOMERANDOMSECRETKEYNEEDSTOBEHINHERE'
+from .secrets import *
 
 DEBUG = False
 
@@ -14,5 +12,3 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-IEX_TOKEN = 'PUT YOUR TOKEN HERE'
