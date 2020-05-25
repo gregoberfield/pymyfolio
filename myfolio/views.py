@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from .forms import *
 import pyEX as p
 from django.conf import settings
+from .models import Equity, Dividend
 
 
 def add_equity_form(request):
@@ -15,10 +16,35 @@ def add_equity_form(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             if '_add' in request.POST:
-                company = iex_client.company(form.cleaned_data['symbol'])
+                iex_data = iex_client.company(form.cleaned_data['symbol'])
+                company = Equity(symbol=iex_data['symbol'], name=iex_data['companyName'],
+                                 exchange=iex_data['exchange'], industry=iex_data['industry'],
+                                 sector=iex_data['sector'], sic=iex_data['primarySicCode'])
+
+                iex_data = iex_client.dividends(form.cleaned_data['symbol'], timeframe='next')
+                if iex_data:
+                    frequency = Dividend.Frequency.QUARTERLY
+                    if iex_data['frequency'] == 'monthly':
+                        frequency = Dividend.Frequency.MONTHLY
+
+                    dividend = Dividend(equity=company,
+                                        ex_date=iex_data['exDate'],
+                                        payment_date=iex_data['paymentDate'],
+                                        record_date=iex_data['recordDate'],
+                                        declared_date=iex_data['declaredDate'],
+                                        amount=iex_data['amount'],
+                                        flag=iex_data['flag'],
+                                        currency=iex_data['currency'],
+                                        description=iex_data['description'],
+                                        frequency=frequency
+                                        )
+
+                    company.save()
+                    dividend.save()
+
             # redirect to a new URL:
             # return HttpResponseRedirect(request.path_info)
-            return render(request, 'add_equity_form.html', {'form': form, 'data': company})
+            return render(request, 'add_equity_form.html', {'form': form})
         else:
             print("Something wrong with the form")
 

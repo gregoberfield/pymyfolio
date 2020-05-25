@@ -12,7 +12,12 @@ class Portfolio(models.Model):
 
 
 class Equity(models.Model):
-    ticker = models.CharField(max_length=5, null=False, primary_key=True)
+    symbol = models.CharField(max_length=5, null=False, primary_key=True)
+    name = models.CharField(max_length=32)
+    exchange = models.CharField(max_length=16)
+    industry = models.CharField(max_length=64)
+    sector = models.CharField(max_length=64)
+    sic = models.IntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
