@@ -1,13 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import *
-import pyEX as p
-from django.conf import settings
 from .models import Equity, Dividend
+from .data_utils import *
 
 
 def add_equity_form(request):
-    iex_client = p.Client(api_token=settings.IEX_TOKEN, version='v1')
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -16,11 +14,11 @@ def add_equity_form(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             if '_add' in request.POST:
-                iex_data = iex_client.company(form.cleaned_data['symbol'])
-                company = Equity(symbol=iex_data['symbol'], name=iex_data['companyName'],
-                                 exchange=iex_data['exchange'], industry=iex_data['industry'],
-                                 sector=iex_data['sector'], sic=iex_data['primarySicCode'])
+                company = get_company_data(form.cleaned_data['symbol'])
 
+                if not company:
+                    print("error in equity")
+                    return render(request, 'add_equity_form.html', {'form': form})
                 iex_data = iex_client.dividends(form.cleaned_data['symbol'], timeframe='next')
                 if iex_data:
                     frequency = Dividend.Frequency.QUARTERLY
