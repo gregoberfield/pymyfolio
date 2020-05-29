@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import *
-from .models import Equity, Dividend
 from .data_utils import *
 
 
@@ -14,30 +13,17 @@ def add_equity_form(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             if '_add' in request.POST:
-                company = get_company_data(form.cleaned_data['symbol'])
+                company = get_equity_data(form.cleaned_data['symbol'])
 
                 if not company:
                     print("error in equity")
                     return render(request, 'add_equity_form.html', {'form': form})
-                iex_data = iex_client.dividends(form.cleaned_data['symbol'], timeframe='next')
-                if iex_data:
-                    frequency = Dividend.Frequency.QUARTERLY
-                    if iex_data['frequency'] == 'monthly':
-                        frequency = Dividend.Frequency.MONTHLY
+                dividend = get_equity_dividend(company)
 
-                    dividend = Dividend(equity=company,
-                                        ex_date=iex_data['exDate'],
-                                        payment_date=iex_data['paymentDate'],
-                                        record_date=iex_data['recordDate'],
-                                        declared_date=iex_data['declaredDate'],
-                                        amount=iex_data['amount'],
-                                        flag=iex_data['flag'],
-                                        currency=iex_data['currency'],
-                                        description=iex_data['description'],
-                                        frequency=frequency
-                                        )
+                company.save()
 
-                    company.save()
+                # only save the dividend if it exists
+                if dividend:
                     dividend.save()
 
             # redirect to a new URL:
