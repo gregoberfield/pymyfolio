@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import *
 from .data_utils import *
+from django.contrib import messages
 
 
 def displaytest(request):
@@ -24,10 +25,12 @@ def add_equity_form(request):
 
                     if not company:
                         print("error in equity")
+                        messages.error(request, '{} is not a valid symbol.'.format(form.cleaned_data['symbol'].upper()))
                         return render(request, 'add_equity_form.html', {'form': form})
                     dividend = get_equity_dividend(company)
 
                     company.save()
+                    messages.success(request, '{} added to database.'.format(form.cleaned_data['symbol'].upper()))
 
                     # only save the dividend if it exists
                     if dividend:
@@ -38,6 +41,7 @@ def add_equity_form(request):
             return render(request, 'add_equity_form.html', {'form': form})
         else:
             print("Something wrong with the form")
+            messages.error(request, 'Failed to add {} to database.'.format(form.cleaned_data['symbol'].upper()))
 
     # if a GET (or any other method) we'll create a blank form
     else:
