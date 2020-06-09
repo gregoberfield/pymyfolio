@@ -9,6 +9,10 @@ def displaytest(request):
     return render(request, 'index.html')
 
 
+def displaytest2(request):
+    return render(request, 'index2.html')
+
+
 def add_equity_form(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
