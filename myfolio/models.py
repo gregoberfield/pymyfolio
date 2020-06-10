@@ -11,6 +11,15 @@ class Portfolio(models.Model):
         verbose_name_plural = "Portfolios"
 
 
+class Strategy(models.Model):
+    name = models.CharField(max_length=32)
+    short_name = models.CharField(max_length=8)
+    description = models.TextField(max_length=4096)
+
+    class Meta:
+        verbose_name_plural = 'Strategies'
+
+
 class Equity(models.Model):
     symbol = models.CharField(max_length=5, null=False, primary_key=True)
     name = models.CharField(max_length=32)
@@ -57,6 +66,7 @@ class Transaction(models.Model):
     equity = models.ForeignKey(Equity, on_delete=models.CASCADE)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
     date = models.DateField(null=False)
+    strategy = models.ForeignKey(Strategy, on_delete=models.SET_NULL, null=True)
     # do I need commission / fee / broker / etc?
 
     class Meta:

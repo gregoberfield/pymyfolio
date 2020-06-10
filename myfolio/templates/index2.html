@@ -15,7 +15,7 @@
 	<link rel="canonical" href="https://www.wrappixel.com/templates/xtremeadmin/" />
     <!-- Custom CSS -->
     <link href="{% static 'libs/chartist/dist/chartist.min.css' %}" rel="stylesheet">
-    <link href="{% static 'libs/c3/c3.min.css' %}" rel="stylesheet">
+    <link href="{% static 'libs/css-chart/css-chart.css' %}" rel="stylesheet">
     <link href="{% static 'libs/jvector/jquery-jvectormap-2.0.2.css' %}" rel="stylesheet" />
     <!-- Custom CSS -->
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
@@ -67,17 +67,17 @@
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="../../assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                            <img src="{% static 'images/logo-icon.png' %}" alt="homepage" class="dark-logo" />
                             <!-- Light Logo icon -->
-                            <img src="../../assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+                            <img src="{% static 'images/logo-light-icon.png' %}" alt="homepage" class="light-logo" />
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                              <!-- dark Logo text -->
-                             <img src="../../assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                             <img src="{% static 'images/logo-text.png' %}" alt="homepage" class="dark-logo" />
                              <!-- Light Logo text -->    
-                             <img src="../../assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                             <img src="{% static 'images/logo-light-text.png' %}" class="light-logo" alt="homepage" />
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -1338,7 +1338,7 @@
     <!-- ============================================================== -->
     <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="{% static 'libs/popper.js/dist/umd/popper.min.js' %}"></script>
     <!-- apps -->
     <script src="{% static 'js/app.min.js' %}"></script>
     <script src="{% static 'js/app.init.light-sidebar.js' %}"></script>
